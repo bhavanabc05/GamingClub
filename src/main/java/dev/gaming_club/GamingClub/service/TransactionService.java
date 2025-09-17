@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -20,6 +21,11 @@ public class TransactionService {
     private MemberRepository memberRepository;
     @Autowired
     private GameRepository gameRepository;
+    
+ // Add this method inside the TransactionService class
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAll();
+    }
 
     public Transaction createTransaction(String memberId, String gameId) {
         // Step 1: Find the member and the game.
