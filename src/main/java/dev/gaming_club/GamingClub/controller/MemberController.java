@@ -30,4 +30,11 @@ public class MemberController {
         // Call the service to create a member, and return the created member with a 201 CREATED status
         return new ResponseEntity<Member>(memberService.createMember(payload.get("name"), payload.get("phone")), HttpStatus.CREATED);
     }
+    
+ // Add this new method inside the MemberController class
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable String id) {
+        memberService.deleteMember(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content is a standard response for successful deletion
+    }
 }

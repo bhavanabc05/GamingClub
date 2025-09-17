@@ -18,6 +18,15 @@ public class MemberService {
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
     }
+    
+ // Add this new method inside the MemberService class
+    public void deleteMember(String memberId) {
+        // Check if the member exists before trying to delete
+        if (!memberRepository.existsById(memberId)) {
+            throw new RuntimeException("Member not found with id: " + memberId);
+        }
+        memberRepository.deleteById(memberId);
+    }
 
     // A method to create a new member (with business logic)
     public Member createMember(String name, String phone) {
