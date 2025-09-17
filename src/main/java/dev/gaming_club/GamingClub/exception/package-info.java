@@ -1,0 +1,1 @@
+package dev.gaming_club.GamingClub.exception;

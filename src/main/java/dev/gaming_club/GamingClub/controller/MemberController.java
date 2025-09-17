@@ -23,6 +23,12 @@ public class MemberController {
         // Call the service to get the data, and return it with a 200 OK status
         return new ResponseEntity<List<Member>>(memberService.getAllMembers(), HttpStatus.OK);
     }
+    
+    // Add this new method inside the MemberController class
+    @GetMapping("/{id}")
+    public ResponseEntity<Member> getSingleMember(@PathVariable String id) {
+        return new ResponseEntity<>(memberService.getSingleMember(id), HttpStatus.OK);
+    }
 
     // This method will handle POST requests to /api/v1/members
     @PostMapping
@@ -31,10 +37,18 @@ public class MemberController {
         return new ResponseEntity<Member>(memberService.createMember(payload.get("name"), payload.get("phone")), HttpStatus.CREATED);
     }
     
- // Add this new method inside the MemberController class
+    // Add this new method inside the MemberController class
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable String id) {
         memberService.deleteMember(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content is a standard response for successful deletion
+    }
+    
+    // Add this new method inside the MemberController class
+    @PutMapping("/{id}")
+    public ResponseEntity<Member> updateMember(@PathVariable String id, @RequestBody Map<String, String> payload) {
+        String newName = payload.get("name");
+        String newPhone = payload.get("phone");
+        return new ResponseEntity<>(memberService.updateMember(id, newName, newPhone), HttpStatus.OK);
     }
 }
