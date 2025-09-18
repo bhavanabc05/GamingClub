@@ -20,6 +20,8 @@ public class GameController {
     public ResponseEntity<List<Game>> getAllGames() {
         return new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);
     }
+    
+    
 
     @PostMapping
     public ResponseEntity<Game> createGame(@RequestBody Game game) {

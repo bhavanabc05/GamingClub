@@ -1,5 +1,6 @@
 package dev.gaming_club.GamingClub.service;
 
+import dev.gaming_club.GamingClub.exception.ResourceNotFoundException; // Import our custom exception
 import dev.gaming_club.GamingClub.model.Member;
 import dev.gaming_club.GamingClub.model.Recharge;
 import dev.gaming_club.GamingClub.repository.MemberRepository;
@@ -17,23 +18,21 @@ public class RechargeService {
     private RechargeRepository rechargeRepository;
 
     @Autowired
-    private MemberRepository memberRepository; // We need this to update the member's balance
-    
+    private MemberRepository memberRepository;
+
     public List<Recharge> getAllRecharges() {
         return rechargeRepository.findAll();
     }
 
     public Recharge createRecharge(String memberId, double amount) {
-        // 1. Find the member by their ID.
+        // --- THIS LINE IS UPDATED ---
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("Member not found with id: " + memberId));
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found with id: " + memberId));
 
-        // 2. Update the member's balance.
         double newBalance = member.getBalance() + amount;
         member.setBalance(newBalance);
-        memberRepository.save(member); // Save the updated member
+        memberRepository.save(member);
 
-        // 3. Create and save the recharge record.
         Recharge recharge = new Recharge();
         recharge.setMemberId(memberId);
         recharge.setAmount(amount);

@@ -1,14 +1,23 @@
 package dev.gaming_club.GamingClub.controller;
 
-import dev.gaming_club.GamingClub.model.Member;
-import dev.gaming_club.GamingClub.service.MemberService;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import dev.gaming_club.GamingClub.dto.MemberProfileDTO;
+import dev.gaming_club.GamingClub.model.Member;
+import dev.gaming_club.GamingClub.service.MemberService;
 
 @RestController // Tells Spring this class will handle API requests
 @RequestMapping("/api/v1/members") // All URLs for this controller will start with this path
@@ -44,11 +53,26 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204 No Content is a standard response for successful deletion
     }
     
-    // Add this new method inside the MemberController class
+ // In MemberController.java
     @PutMapping("/{id}")
-    public ResponseEntity<Member> updateMember(@PathVariable String id, @RequestBody Map<String, String> payload) {
-        String newName = payload.get("name");
-        String newPhone = payload.get("phone");
-        return new ResponseEntity<>(memberService.updateMember(id, newName, newPhone), HttpStatus.OK);
+    public ResponseEntity<Member> updateMember(@PathVariable String id, @RequestBody Map<String, Object> payload) {
+        String newName = (String) payload.get("name");
+        String newPhone = (String) payload.get("phone");
+        
+        // Safely get and parse the balance from the request
+        double newBalance = 0.0;
+        if (payload.get("balance") != null) {
+            newBalance = Double.parseDouble(payload.get("balance").toString());
+        }
+
+        Member updatedMember = memberService.updateMember(id, newName, newPhone, newBalance);
+        return new ResponseEntity<>(updatedMember, HttpStatus.OK);
+    }
+    
+    // Add this new method to your MemberController class
+    @PostMapping("/search")
+    public ResponseEntity<MemberProfileDTO> searchMember(@RequestBody Map<String, String> payload) {
+        String phone = payload.get("phone");
+        return new ResponseEntity<>(memberService.getMemberProfile(phone), HttpStatus.OK);
     }
 }
