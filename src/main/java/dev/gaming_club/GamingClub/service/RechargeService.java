@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class RechargeService {
@@ -17,6 +18,10 @@ public class RechargeService {
 
     @Autowired
     private MemberRepository memberRepository; // We need this to update the member's balance
+    
+    public List<Recharge> getAllRecharges() {
+        return rechargeRepository.findAll();
+    }
 
     public Recharge createRecharge(String memberId, double amount) {
         // 1. Find the member by their ID.
