@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:5174")
 @RestController
-@RequestMapping("/api/v1/games")
+@RequestMapping("/api/v1/game") // <-- CHANGE THIS to singular "game"
 public class GameController {
 
     @Autowired
@@ -20,8 +21,6 @@ public class GameController {
     public ResponseEntity<List<Game>> getAllGames() {
         return new ResponseEntity<>(gameService.getAllGames(), HttpStatus.OK);
     }
-    
-    
 
     @PostMapping
     public ResponseEntity<Game> createGame(@RequestBody Game game) {

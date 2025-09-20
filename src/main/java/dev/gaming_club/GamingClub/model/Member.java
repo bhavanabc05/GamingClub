@@ -16,6 +16,7 @@ public class Member {
     private String phone;
     private double balance;
     private LocalDateTime joiningDate;
+    private String password;
 
     // --- Paste all the code below this line ---
 
@@ -59,5 +60,11 @@ public class Member {
 
     public void setJoiningDate(LocalDateTime joiningDate) {
         this.joiningDate = joiningDate;
+    }
+    public String getPassword() {
+    	return password;
+    }
+    public void setPassword(String password) { 
+    	this.password = password; 
     }
 }

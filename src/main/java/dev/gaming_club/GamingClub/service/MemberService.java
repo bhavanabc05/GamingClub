@@ -16,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,13 +42,15 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Member createMember(String name, String phone) {
+    public Member createMember(String name, String phone,String plainTextPassword) {
+    	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         logger.info("Attempting to create a new member with name: {}", name);
         Member newMember = new Member();
         newMember.setName(name);
         newMember.setPhone(phone);
         newMember.setBalance(0.0);
         newMember.setJoiningDate(LocalDateTime.now());
+        newMember.setPassword(passwordEncoder.encode(plainTextPassword));
         Member savedMember = memberRepository.save(newMember);
         logger.info("Successfully created member with ID: {}", savedMember.getId());
         return savedMember;

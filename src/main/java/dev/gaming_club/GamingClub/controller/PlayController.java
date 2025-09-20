@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
+@CrossOrigin("http://localhost:5174")
 @RestController
 @RequestMapping("/api/v1")
 public class PlayController {

@@ -1,5 +1,8 @@
 package dev.gaming_club.GamingClub.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+@CrossOrigin("http://localhost:5174")
 // This class is a blueprint for the JSON request body
 public class RechargeRequestDTO {
     private String memberId;
